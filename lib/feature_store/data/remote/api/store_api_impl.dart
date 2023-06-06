@@ -53,15 +53,18 @@ class StoreApiImpl extends StoreApi{
 
   @override
   Future<ProductStoreDto> getProductsByCategory(String categoryName, int limit, int skip) async {
-    var url = Uri.parse("${StoreApi.API_BASE_URL}/products/category/$categoryName?limit=$limit&skip=$skip");
+    var url = Uri.parse("${StoreApi.API_BASE_URL}/category/$categoryName?limit=$limit&skip=$skip");
     var response = await http.get(url);
 
     try {
       if (response.statusCode == 200) {
-        var jsonString = jsonDecode(response.body);
+        // var jsonString = jsonDecode(response.body);
+        String jsonString = response.body;
         return productStoreDtoFromJson(jsonString);
       } else {
-        throw StoreApiException("An unexpected error has occurred in getProductsByCategory");
+        throw StoreApiException("An unexpected error has occurred in getProductsByCategory for this request : \n"
+            "${url}"
+        );
       }
     } catch (e, stackTrace) {
       log('An error has occurred in getProductsByCategory: $e\n$stackTrace');

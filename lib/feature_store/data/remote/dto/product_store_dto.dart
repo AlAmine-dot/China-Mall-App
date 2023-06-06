@@ -7,6 +7,8 @@ import 'dart:convert';
 import 'package:lumia_app/feature_store/data/remote/dto/product_dto.dart';
 
 ProductStoreDto productStoreDtoFromJson(String str) => ProductStoreDto.fromJson(json.decode(str));
+// ProductStoreDto productStoreDtoFromJson(Map<String, dynamic> json) => ProductStoreDto.fromJson(json);
+
 
 String productStoreDtoToJson(ProductStoreDto data) => json.encode(data.toJson());
 

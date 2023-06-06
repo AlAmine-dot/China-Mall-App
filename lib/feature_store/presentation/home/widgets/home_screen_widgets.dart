@@ -161,7 +161,7 @@ class CategoriesTabBar extends StatelessWidget {
                   color: state.selectedCategoryTab == index ? Colors.black : Colors.grey,
                 ),
                 SizedBox(
-                  height: 6.h,
+                  height: 5.h,
                 ),
                 Text(
                   capitalizeFirstLetter(category.categoryName),
