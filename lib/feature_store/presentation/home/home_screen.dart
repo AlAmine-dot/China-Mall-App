@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -117,12 +118,49 @@ class HomeScreen extends StatelessWidget {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             15),
-                                                    image: DecorationImage(
-                                                      image: NetworkImage(product.thumbnail),
-                                                      fit: BoxFit.cover,
-                                                    )),
+                                                    // image: DecorationImage(
+                                                    //   image: NetworkImage(product.thumbnail),
+                                                    //   fit: BoxFit.cover,
+                                                    // )
+                                                ),
                                                 child: Stack(
                                                   children: [
+                                                    CachedNetworkImage(
+                                                      imageUrl: product.thumbnail,
+                                                      imageBuilder: (context, imageProvider) => Container(
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(15),
+                                                          image: DecorationImage(
+                                                            image: imageProvider,
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        ),
+                                                        // color: Colors.red,
+                                                        // child: FadeInImage.assetNetwork(
+                                                        //     placeholder: "assets/images/swiper_1.png",
+                                                        //     image: product.thumbnail,
+                                                        //     fit: BoxFit.cover
+                                                        // ),
+                                                      ),
+                                                      placeholder: (context, url) => Container(
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(15),
+                                                          image: DecorationImage(
+                                                            image: AssetImage("assets/images/placeholder.png"),
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      errorWidget: (context, url, error) => Container(
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(15),
+                                                          image: DecorationImage(
+                                                            image: AssetImage("assets/images/placeholder.png"),
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
                                                     Positioned(
                                                       top: 5,
                                                       right: 5,
@@ -178,25 +216,16 @@ class HomeScreen extends StatelessWidget {
                                                                         Radius.circular(
                                                                             15))),
                                                         child: Row(
-                                                          children: [
-                                                            Icon(Icons.star,
-                                                                color: AppColors
-                                                                    .chinaYellow),
-                                                            Icon(Icons.star,
-                                                                color: AppColors
-                                                                    .chinaYellow),
-                                                            Icon(Icons.star,
-                                                                color: AppColors
-                                                                    .chinaYellow),
-                                                            Icon(Icons.star,
-                                                                color: AppColors
-                                                                    .chinaYellow),
-                                                            Icon(
-                                                                Icons
-                                                                    .star_border,
-                                                                color: AppColors
-                                                                    .chinaYellow)
-                                                          ],
+                                                          children: List.generate(5, (index) {
+                                                            if (index < product.rating.floor()) {
+                                                              // L'index est inférieur à la note du produit, afficher une étoile pleine
+                                                              return Icon(Icons.star, color: AppColors.chinaYellow);
+                                                            } else {
+                                                              // L'index est supérieur ou égal à la note du produit, afficher une étoile vide
+                                                              return Icon(Icons.star_border, color: AppColors.chinaYellow);
+                                                            }
+                                                          }),
+
                                                         ),
                                                       ),
                                                     )
@@ -212,7 +241,7 @@ class HomeScreen extends StatelessWidget {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      product.title,
+                                                      truncateText(product.title,20),
                                                       style: TextStyle(
                                                         fontSize: 15.sp,
                                                       ),
@@ -221,7 +250,7 @@ class HomeScreen extends StatelessWidget {
                                                       height: 2.h,
                                                     ),
                                                     Text(
-                                                      "${convertDollarsToFrancCFA(product.price.toDouble())} FCFA",
+                                                      "${formatPrice(convertDollarsToFrancCFA(product.price.toDouble()))} FCFA",
                                                       style: TextStyle(
                                                           fontSize: 15.sp,
                                                           fontWeight:
@@ -235,7 +264,7 @@ class HomeScreen extends StatelessWidget {
                                                         RichText(
                                                           text: TextSpan(
                                                             text:
-                                                                '200.000 FCFA',
+                                                                '${formatPrice(convertDollarsToFrancCFA(product.nondiscountPrice.toDouble()))} FCFA',
                                                             style: TextStyle(
                                                               color: Colors.grey
                                                                   .withOpacity(
