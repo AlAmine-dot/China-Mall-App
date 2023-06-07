@@ -11,4 +11,9 @@ class ProductStore{
     final products = dto.products.map((e) => Product.toProductModel(e)).toList();
     return ProductStore(products: products, totalProductsFound: dto.total);
   }
+
+  @override
+  String toString() {
+    return 'ProductStore{products: $products, totalProductsFound: $totalProductsFound}';
+  }
 }

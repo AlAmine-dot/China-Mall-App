@@ -77,4 +77,9 @@ class Category {
       categoryIcon: iconData,
     );
   }
+
+  @override
+  String toString() {
+    return 'Category{categoryName: $categoryName, categoryIcon: $categoryIcon}';
+  }
 }

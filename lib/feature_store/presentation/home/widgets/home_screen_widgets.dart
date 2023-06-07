@@ -117,10 +117,11 @@ class SearchTopAppBar extends StatelessWidget implements PreferredSizeWidget {
 class CategoriesTabBar extends StatelessWidget {
   const CategoriesTabBar({
     super.key,
-    required this.homeBloc,
+    required this.homeBloc, required this.scrollToPopularProductsSection,
   });
 
   final HomeBloc homeBloc;
+  final Function scrollToPopularProductsSection;
 
   @override
   Widget build(BuildContext context) {
@@ -150,6 +151,8 @@ class CategoriesTabBar extends StatelessWidget {
         // controller: _tabController,
         onTap: (int index){
           homeBloc.add(SelectCategory(index));
+          scrollToPopularProductsSection();
+          print("testing bro");
         },
         indicatorColor: Colors.red,
         labelPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
@@ -408,7 +411,7 @@ class PopularProductsSection extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             )
                 : Text(
-              "Popular products in ${truncateText(state.categories[state.selectedCategoryTab].categoryName, 14)}",
+              "Popular products in ${truncateText(state.categories[state.selectedCategoryTab].categoryName, 13)}",
               style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold),
@@ -416,7 +419,7 @@ class PopularProductsSection extends StatelessWidget {
           ),
           state.categoryProductsLoading ? Container(
             width: 1.sw,
-            height: 300.h,
+            height: 600.h,
             child: Center(
               child: CircularProgressIndicator(color: AppColors.smoothChinaRed),
             ),
@@ -459,7 +462,6 @@ class ProductsGridFeed extends StatelessWidget {
         itemBuilder: (_, index) {
           final Product product = state
               .categoryProducts!.products[index]!;
-
           return ProductSmallCard(product: product);
         });
   }

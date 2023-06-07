@@ -13,7 +13,7 @@ class GetCategoryProducts extends HomeEvent{
   final int skip;
   final Category category;
 
-  const GetCategoryProducts(this.category, this.skip, this.limit);
+  const GetCategoryProducts({required this.category, required this.skip, required this.limit});
 }
 
 class SelectCategory extends HomeEvent{

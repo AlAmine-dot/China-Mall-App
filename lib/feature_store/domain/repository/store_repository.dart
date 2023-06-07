@@ -12,11 +12,11 @@ abstract class StoreRepository{
 
   Future<List<Category>> getAllCategoriesFromRemote();
 
-  Future<ProductStore> getProductsFromRemote(int limit, int skip);
+  Future<ProductStore> getProductsFromRemote({required int limit, required int skip});
 
-  Future<ProductStore> searchProductsByNameFromRemote(String queryString, int limit, int skip);
+  Future<ProductStore> searchProductsByNameFromRemote({required String queryString, required int limit, required int skip});
 
-  Future<ProductStore> getProductsByCategoryFromRemote(String categoryName, int limit, int skip);
+  Future<ProductStore> getProductsByCategoryFromRemote({required String categoryName, required int limit, required int skip});
 
   Future<Product> getSingleProductByIdFromRemote(int productId);
 

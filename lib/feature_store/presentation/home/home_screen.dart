@@ -20,6 +20,8 @@ class HomeScreen extends StatelessWidget {
     return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
       final homeBloc = context.read<HomeBloc>();
       final _controller = PageController();
+      final ScrollController _scrollController = ScrollController();
+
       final List<Map> myProducts = List.generate(
           10, (index) => {"id": index, "name": "Product ${index}"}).toList();
 
@@ -43,10 +45,21 @@ class HomeScreen extends StatelessWidget {
             // crossAxisAlignment: CrossAxisAlignment.center,
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CategoriesTabBar(homeBloc: homeBloc),
+              CategoriesTabBar(
+                homeBloc: homeBloc,
+                scrollToPopularProductsSection: (){
+                  _scrollController.animateTo(
+                    200.h,
+                    duration: Duration(milliseconds: 1000), // Durée de l'animation (optionnelle)
+                    curve: Curves.ease, // Courbe de l'animation (optionnelle)
+                  );
+                  print("scrolled fr mf !");
+                }
+              ),
               // On met le single child ici pour que l'item juste en haut reste fixé !
               Expanded(
                 child: SingleChildScrollView(
+                  controller: _scrollController,
                   child: Column(
                     children: [
                       DiscountsSwiper(controller: _controller),
@@ -54,8 +67,11 @@ class HomeScreen extends StatelessWidget {
                         height: 15.h,
                       ),
                       PopularProductsSection(homeBloc: homeBloc),
-                      Center(child: Text("Hello lumia !"))
+                      SizedBox(
+                        height: 15.h,
+                      )
                     ],
+
                   ),
                 ),
               )

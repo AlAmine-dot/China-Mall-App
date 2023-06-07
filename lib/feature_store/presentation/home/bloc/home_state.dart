@@ -37,18 +37,8 @@ class HomeState {
     );
   }
 
-
-  // HomeState copyWith({List<Category>? categories, bool? categoriesLoading, String? errorMessage, int? selectedCategoryTab}) {
-  //   return HomeState(
-  //     categories: categories ?? this.categories,
-  //     categoriesLoading: categoriesLoading ?? this.categoriesLoading,
-  //     errorMessage: errorMessage ?? this.errorMessage,
-  //     selectedCategoryTab: selectedCategoryTab ?? this.selectedCategoryTab
-  //   );
-  // }
-
   @override
   String toString() {
-    return 'HomeState{categories: $categories, isLoading: $categoriesLoading, errorMessage: $errorMessage, selectedCategoryTab: $selectedCategoryTab}';
+    return 'HomeState{categories: $categories, categoriesLoading: $categoriesLoading, categoryProducts: $categoryProducts, categoryProductsLoading: $categoryProductsLoading, errorMessage: $errorMessage, selectedCategoryTab: $selectedCategoryTab}';
   }
 }

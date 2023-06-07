@@ -12,7 +12,7 @@ class GetProductsByCategoryUseCase {
     yield Resource.loading();
 
     try {
-      final categoryProducts = await _storeRepository.getProductsByCategoryFromRemote(categoryName, limit, skip);
+      final categoryProducts = await _storeRepository.getProductsByCategoryFromRemote(categoryName: categoryName, limit: limit, skip: skip);
       yield Resource.success(categoryProducts);
     } catch (e) {
       yield Resource.error('An error occurred');

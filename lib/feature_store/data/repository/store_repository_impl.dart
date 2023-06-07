@@ -15,14 +15,14 @@ class StoreRepositoryImpl extends StoreRepository{
 
 
   @override
-  Future<ProductStore> getProductsByCategoryFromRemote(String categoryName, int limit, int skip) async {
-    var dto = await _storeApi.getProductsByCategory(categoryName, limit, skip);
+  Future<ProductStore> getProductsByCategoryFromRemote({required String categoryName, required int limit,required int skip}) async {
+    var dto = await _storeApi.getProductsByCategory(categoryName: categoryName, limit: limit, skip: skip);
     return ProductStore.toProductStoreModel(dto);
   }
 
   @override
-  Future<ProductStore> getProductsFromRemote(int limit, int skip) async {
-    var dto = await _storeApi.getProducts(limit, skip);
+  Future<ProductStore> getProductsFromRemote({required int limit, required int skip}) async {
+    var dto = await _storeApi.getProducts(limit: limit, skip: skip);
     return ProductStore.toProductStoreModel(dto);
   }
 
@@ -33,8 +33,8 @@ class StoreRepositoryImpl extends StoreRepository{
   }
 
   @override
-  Future<ProductStore> searchProductsByNameFromRemote(String queryString, int limit, int skip) async {
-    var dto = await _storeApi.searchProductsByName(queryString, limit, skip);
+  Future<ProductStore> searchProductsByNameFromRemote({required String queryString, required int limit, required int skip}) async {
+    var dto = await _storeApi.searchProductsByName(queryString: queryString, limit: limit, skip: skip);
     return ProductStore.toProductStoreModel(dto);
   }
 

@@ -8,11 +8,11 @@ abstract class StoreApi{
 
     Future<List<String>> getAllCategories();
 
-    Future<ProductStoreDto> getProducts(int limit, int skip);
+    Future<ProductStoreDto> getProducts({required int limit, required int skip});
 
-    Future<ProductStoreDto> searchProductsByName(String queryString, int limit, int skip);
+    Future<ProductStoreDto> searchProductsByName({required String queryString, required int limit, required int skip});
 
-    Future<ProductStoreDto> getProductsByCategory(String categoryName, int limit, int skip);
+    Future<ProductStoreDto> getProductsByCategory({required String categoryName, required int limit, required int skip});
 
     Future<ProductDto> getSingleProductById(int productId);
 

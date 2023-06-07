@@ -32,5 +32,8 @@ class Product{
 
   factory Product.toProductModel(ProductDto dto) => Product(id: dto.id, title: dto.title, description: dto.description, price: dto.price, discountPercentage: dto.discountPercentage, rating: dto.rating, stock: dto.stock, brand: dto.brand, category: dto.category, thumbnail: dto.thumbnail, images: dto.images, nondiscountPrice: dto.price ~/ (1 - (dto.discountPercentage / 100) ));
 
-
+  @override
+  String toString() {
+    return 'Product{id: $id, title: $title, description: $description, price: $price, nondiscountPrice: $nondiscountPrice, discountPercentage: $discountPercentage, rating: $rating, stock: $stock, brand: $brand, category: $category, thumbnail: $thumbnail, images: $images}';
+  }
 }
