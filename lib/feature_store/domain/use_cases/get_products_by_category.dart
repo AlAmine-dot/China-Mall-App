@@ -1,6 +1,6 @@
 import 'package:lumia_app/feature_store/domain/model/product_store.dart';
 
-import '../../../core/utils/resource.dart';
+import '../../../core/commons/utils/resource.dart';
 import '../../data/repository/store_repository_impl.dart';
 import '../../di/locator.dart';
 

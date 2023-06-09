@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/utils/toolbox.dart';
+import '../../../../core/commons/theme/app_colors.dart';
+import '../../../../core/commons/utils/toolbox.dart';
 import '../../../domain/model/product.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_event.dart';

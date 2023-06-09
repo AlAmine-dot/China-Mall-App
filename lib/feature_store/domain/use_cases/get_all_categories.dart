@@ -1,4 +1,4 @@
-import '../../../core/utils/resource.dart';
+import '../../../core/commons/utils/resource.dart';
 import '../../data/repository/store_repository_impl.dart';
 import '../../di/locator.dart';
 import '../model/category.dart';

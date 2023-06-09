@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lumia_app/core/utils/app_constants.dart';
 import 'package:lumia_app/feature_store/domain/use_cases/get_all_categories.dart';
-import 'package:lumia_app/feature_store/presentation/home/bloc/home_event.dart';
-import 'package:lumia_app/feature_store/presentation/home/bloc/home_state.dart';
+import 'package:lumia_app/feature_store/presentation/home_screen/bloc/home_event.dart';
+import 'package:lumia_app/feature_store/presentation/home_screen/bloc/home_state.dart';
 
-import '../../../../core/utils/resource.dart';
+import '../../../../core/commons/utils/app_constants.dart';
+import '../../../../core/commons/utils/resource.dart';
 import '../../../di/locator.dart';
 import '../../../domain/use_cases/get_products_by_category.dart';
 
