@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lumia_app/core/commons/theme/app_colors.dart';
+import 'package:lumia_app/core/data/local/china_mall_database.dart';
 import 'package:lumia_app/core/presentation/onboarding_screen/onboarding_screen.dart';
 import 'package:lumia_app/feature_store/di/locator.dart';
 import 'package:lumia_app/feature_store/presentation/search_screen/search_screen.dart';
@@ -20,6 +21,9 @@ class LumiaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final _databaseInstance = locator.get<ChinamallDatabase>();
+    _databaseInstance.createDatabase();
 
     // final GlobalKey<NavigatorState> _rootNavigator = GlobalKey(debugLabel: 'root');
     // final GlobalKey<NavigatorState> _shellNavigator = GlobalKey(debugLabel: 'shell');

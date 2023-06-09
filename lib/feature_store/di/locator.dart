@@ -5,9 +5,16 @@ import 'package:lumia_app/feature_store/domain/use_cases/get_all_categories.dart
 import 'package:lumia_app/feature_store/domain/use_cases/get_products_by_category.dart';
 import 'package:lumia_app/feature_store/presentation/home_screen/bloc/home_event.dart';
 
+import '../../core/data/local/china_mall_database.dart';
+
 final locator = GetIt.instance;
 
+// Cette injection de dépendances doit être break up, l'instance de la base de données devrait appartenir à un autre
+// setup
 void setupStoreDependencies(){
+
+  // CHINAMALL DATABASE INSTANCE :
+  locator.registerLazySingleton<ChinamallDatabase>(() => ChinamallDatabase());
 
   // LOCAL AND REMOTE :
   locator.registerLazySingleton<StoreApiImpl>(() => StoreApiImpl());
@@ -16,4 +23,6 @@ void setupStoreDependencies(){
   // USE CASES :
   locator.registerLazySingleton(() => GetAllCategoriesUseCase());
   locator.registerLazySingleton(() => GetProductsByCategoryUseCase());
+
+
 }

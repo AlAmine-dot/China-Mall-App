@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:go_router/go_router.dart';
 import 'package:lumia_app/core/commons/theme/app_colors.dart';
 import 'package:lumia_app/core/presentation/root_screen/bloc/root_event.dart';
 import 'package:lumia_app/core/presentation/root_screen/bloc/root_state.dart';
-import 'package:lumia_app/feature_store/presentation/home_screen/home_screen.dart';
-import 'package:page_transition/page_transition.dart';
 
-import '../../../feature_store/presentation/search_screen/search_screen.dart';
 import 'bloc/root_bloc.dart';
 
 class RootScreen extends StatelessWidget {
