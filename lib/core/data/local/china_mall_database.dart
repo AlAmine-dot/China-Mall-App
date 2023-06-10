@@ -2,13 +2,15 @@ import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 
 import '../../../feature_store/data/local/dao/category_dao.dart';
+import '../../../feature_store/data/local/dao/product_dao.dart';
 
 class ChinamallDatabase {
 
   late final CategoryDao categoryDao;
+  late final ProductDao productDao;
 
   static const _databaseName = 'chinamall.db';
-  static const _databaseVersion = 3;
+  static const _databaseVersion = 5;
 
   Future<void> createDatabase() async {
     final databasePath = await sql.getDatabasesPath();
@@ -28,18 +30,35 @@ class ChinamallDatabase {
       },
     );
 
-    // // Stocker l'instance de la base de données pour y accéder ultérieurement
+    // // Stocker les instances de chaque dao pour y accéder ultérieurement
     categoryDao = CategoryDaoImpl(database);
+    productDao = ProductDaoImpl(database);
   }
 
   Future<void> createTables(sql.Database database) async {
     // Créer les tables nécessaires dans la base de données
     await database.execute('''
         CREATE TABLE IF NOT EXISTS categories (
-        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-        categoryName TEXT UNIQUE,
-        categoryIcon TEXT
-      )
+          id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+          categoryName TEXT UNIQUE,
+          categoryIcon TEXT
+        )
+    ''');
+    await database.execute('''
+        CREATE TABLE IF NOT EXISTS products (
+          id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+          title TEXT,
+          description TEXT,
+          price INTEGER,
+          nondiscountPrice INTEGER,
+          discountPercentage REAL,
+          rating REAL,
+          stock INTEGER,
+          brand TEXT,
+          category TEXT,
+          thumbnail TEXT,
+          images TEXT
+        )
     ''');
     // Autres tables si nécessaire
   }

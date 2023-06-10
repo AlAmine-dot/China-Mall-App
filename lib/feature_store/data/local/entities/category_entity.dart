@@ -10,4 +10,8 @@ class CategoryEntity {
 
   factory CategoryEntity.toCategoryEntity(Category model) => CategoryEntity(categoryName: model.categoryName, categoryIcon: model.categoryIcon);
 
+  @override
+  String toString() {
+    return 'CategoryEntity{categoryName: $categoryName, categoryIcon: $categoryIcon}';
+  }
 }

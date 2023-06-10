@@ -12,8 +12,27 @@ class GetProductsByCategoryUseCase {
     yield Resource.loading();
 
     try {
-      final categoryProducts = await _storeRepository.getProductsByCategoryFromRemote(categoryName: categoryName, limit: limit, skip: skip);
-      yield Resource.success(categoryProducts);
+
+      final categoryProductsFromLocalSource = await _storeRepository.getProductsByCategoryFromLocalSource(categoryName: categoryName, limit: limit, skip: skip);
+
+      if(categoryProductsFromLocalSource.products.isNotEmpty && categoryProductsFromLocalSource ! == null){
+        yield Resource.success(categoryProductsFromLocalSource);
+        final categoryProductsFromRemote = await _storeRepository.getProductsByCategoryFromRemote(categoryName: categoryName, limit: limit, skip: skip);
+
+        if(categoryProductsFromLocalSource != categoryProductsFromRemote){
+          _storeRepository.addProductsToLocalSource(categoryProductsFromRemote);
+        }
+      }else{
+
+        final categoryProductsFromRemote = await _storeRepository.getProductsByCategoryFromRemote(categoryName: categoryName, limit: limit, skip: skip);
+        _storeRepository.addProductsToLocalSource(categoryProductsFromRemote);
+
+        final finalResponse = await _storeRepository.getProductsByCategoryFromLocalSource(categoryName: categoryName, limit: limit, skip: skip);
+
+        yield Resource.success(finalResponse);
+
+      }
+
     } catch (e) {
       yield Resource.error('An error occurred');
     }

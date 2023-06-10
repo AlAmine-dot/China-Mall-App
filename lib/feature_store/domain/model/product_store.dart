@@ -8,7 +8,7 @@ class ProductStore{
   ProductStore({required this.products, required this.totalProductsFound});
 
   factory ProductStore.toProductStoreModel(ProductStoreDto dto){
-    final products = dto.products.map((e) => Product.toProductModel(e)).toList();
+    final products = dto.products.map((e) => Product.fromDtoToProductModel(e)).toList();
     return ProductStore(products: products, totalProductsFound: dto.total);
   }
 

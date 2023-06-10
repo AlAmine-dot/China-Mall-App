@@ -12,7 +12,6 @@ class GetAllCategoriesUseCase {
     try {
 
       final categoriesFromLocalSource = await _storeRepository.getAllCategoriesFromLocalSource();
-      print("Here is localSource : " + categoriesFromLocalSource.toString());
 
       if(categoriesFromLocalSource.isNotEmpty && categoriesFromLocalSource != null){
 

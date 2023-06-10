@@ -26,7 +26,9 @@ abstract class StoreRepository{
 
   Future<List<Category>> getAllCategoriesFromLocalSource();
 
+  Future<void> addProductsToLocalSource(ProductStore productStore);
 
+  Future<ProductStore> getProductsByCategoryFromLocalSource({required String categoryName, required int limit, required int skip});
 
 
 }

@@ -1,4 +1,5 @@
 import 'package:lumia_app/core/data/local/china_mall_database.dart';
+import 'package:lumia_app/feature_store/data/local/entities/product_entity.dart';
 import 'package:lumia_app/feature_store/domain/model/category.dart';
 import 'package:lumia_app/feature_store/domain/model/product.dart';
 
@@ -31,7 +32,7 @@ class StoreRepositoryImpl extends StoreRepository{
   @override
   Future<Product> getSingleProductByIdFromRemote(int productId) async {
     var dto = await _storeApi.getSingleProductById(productId);
-    return Product.toProductModel(dto);
+    return Product.fromDtoToProductModel(dto);
   }
 
   @override
@@ -58,6 +59,23 @@ class StoreRepositoryImpl extends StoreRepository{
     var categoryEntitiesList = await _database.categoryDao.getCategories();
     var categoryModelsList = categoryEntitiesList.map((entity) => Category.fromEntityToCategoryModel(entity)).toList();
     return categoryModelsList;
+  }
+
+  @override
+  Future<void> addProductsToLocalSource(ProductStore productStore) async {
+    var productEntityList = productStore.products.map((model) => ProductEntity.toProductEntity(model)).toList();
+    _database.productDao.addProducts(productEntityList);
+  }
+
+  @override
+  Future<ProductStore> getProductsByCategoryFromLocalSource({required String categoryName, required int limit, required int skip}) async {
+    var productEntitiesList = await _database.productDao.getProductsByCategory(categoryName: categoryName, limit: limit, skip: skip);
+    var productsList = productEntitiesList.map((entity) => Product.fromEntityToProductModel(entity)).toList();
+
+    // Ici la valeur que tu donnes avec totalProductsFound n'est pas valide, tu devrais plutôt retourner la quantité d'items disponible
+    // On devra corriger ça bientôt
+    var productStore = ProductStore(products: productsList, totalProductsFound: productsList.length);
+    return productStore;
   }
 
 }

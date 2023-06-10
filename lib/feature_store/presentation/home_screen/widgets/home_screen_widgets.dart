@@ -426,7 +426,7 @@ class PopularProductsSection extends StatelessWidget {
           ) : Container(
             width: 1.sw,
             // height: 500.h,
-            child: ProductsGridFeed(state: state),
+            child: state.categoryProducts == null ? Container() : ProductsGridFeed(state: state),
           )
         ],
       ),

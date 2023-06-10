@@ -1,5 +1,7 @@
 import 'package:lumia_app/feature_store/data/remote/dto/product_dto.dart';
 
+import '../../data/local/entities/product_entity.dart';
+
 class Product{
 
   int id;
@@ -30,7 +32,9 @@ class Product{
     required this.nondiscountPrice
   });
 
-  factory Product.toProductModel(ProductDto dto) => Product(id: dto.id, title: dto.title, description: dto.description, price: dto.price, discountPercentage: dto.discountPercentage, rating: dto.rating, stock: dto.stock, brand: dto.brand, category: dto.category, thumbnail: dto.thumbnail, images: dto.images, nondiscountPrice: dto.price ~/ (1 - (dto.discountPercentage / 100) ));
+  factory Product.fromDtoToProductModel(ProductDto dto) => Product(id: dto.id, title: dto.title, description: dto.description, price: dto.price, discountPercentage: dto.discountPercentage, rating: dto.rating, stock: dto.stock, brand: dto.brand, category: dto.category, thumbnail: dto.thumbnail, images: dto.images, nondiscountPrice: dto.price ~/ (1 - (dto.discountPercentage / 100) ));
+
+  factory Product.fromEntityToProductModel(ProductEntity entity) => Product(id: entity.id, title: entity.title, description: entity.description, price: entity.price, discountPercentage: entity.discountPercentage, rating: entity.rating, stock: entity.stock, brand: entity.brand, category: entity.category, thumbnail: entity.thumbnail, images: entity.images, nondiscountPrice: entity.nondiscountPrice);
 
   @override
   String toString() {
