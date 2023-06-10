@@ -11,10 +11,14 @@ final locator = GetIt.instance;
 
 // Cette injection de dépendances doit être break up, l'instance de la base de données devrait appartenir à un autre
 // setup
-void setupStoreDependencies(){
 
+void setupDatabaseDependencies(){
   // CHINAMALL DATABASE INSTANCE :
   locator.registerLazySingleton<ChinamallDatabase>(() => ChinamallDatabase());
+}
+
+void setupStoreDependencies(){
+
 
   // LOCAL AND REMOTE :
   locator.registerLazySingleton<StoreApiImpl>(() => StoreApiImpl());

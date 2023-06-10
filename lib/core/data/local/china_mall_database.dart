@@ -1,9 +1,14 @@
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 
+import '../../../feature_store/data/local/dao/category_dao.dart';
+
 class ChinamallDatabase {
+
+  late final CategoryDao categoryDao;
+
   static const _databaseName = 'chinamall.db';
-  static const _databaseVersion = 1;
+  static const _databaseVersion = 3;
 
   Future<void> createDatabase() async {
     final databasePath = await sql.getDatabasesPath();
@@ -24,17 +29,16 @@ class ChinamallDatabase {
     );
 
     // // Stocker l'instance de la base de données pour y accéder ultérieurement
-    // DatabaseRepository().setDatabase(database);
+    categoryDao = CategoryDaoImpl(database);
   }
 
   Future<void> createTables(sql.Database database) async {
     // Créer les tables nécessaires dans la base de données
     await database.execute('''
-      CREATE TABLE IF NOT EXISTS items (
+        CREATE TABLE IF NOT EXISTS categories (
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-        title TEXT,
-        description TEXT,
-        createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+        categoryName TEXT UNIQUE,
+        categoryIcon TEXT
       )
     ''');
     // Autres tables si nécessaire

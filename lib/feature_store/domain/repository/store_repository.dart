@@ -20,5 +20,13 @@ abstract class StoreRepository{
 
   Future<Product> getSingleProductByIdFromRemote(int productId);
 
+  // FROM,TO LOCAL SOURCE :
+
+  Future<void> addCategoriesToLocalSource(List<Category> categoryList);
+
+  Future<List<Category>> getAllCategoriesFromLocalSource();
+
+
+
 
 }

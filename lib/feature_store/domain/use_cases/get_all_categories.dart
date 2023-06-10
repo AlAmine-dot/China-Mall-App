@@ -10,10 +10,30 @@ class GetAllCategoriesUseCase {
     yield Resource.loading();
 
     try {
-      final categories = await _storeRepository.getAllCategoriesFromRemote();
-      yield Resource.success(categories);
+
+      final categoriesFromLocalSource = await _storeRepository.getAllCategoriesFromLocalSource();
+      print("Here is localSource : " + categoriesFromLocalSource.toString());
+
+      if(categoriesFromLocalSource.isNotEmpty && categoriesFromLocalSource != null){
+
+        yield Resource.success(categoriesFromLocalSource);
+        final categoriesFromRemote = await _storeRepository.getAllCategoriesFromRemote();
+
+        if(categoriesFromLocalSource != categoriesFromRemote){
+          _storeRepository.addCategoriesToLocalSource(categoriesFromRemote);
+        }
+
+      }else{
+        final categoriesFromRemote = await _storeRepository.getAllCategoriesFromRemote();
+        _storeRepository.addCategoriesToLocalSource(categoriesFromRemote);
+
+        final finalResponse = await _storeRepository.getAllCategoriesFromLocalSource();
+        yield Resource.success(finalResponse);
+      }
+
     } catch (e) {
       yield Resource.error('An error occurred');
     }
+
   }
 }

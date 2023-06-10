@@ -13,6 +13,7 @@ import 'feature_store/presentation/profile_screen/profile_screen.dart';
 
 void main() {
   setupStoreDependencies();
+  setupDatabaseDependencies();
   runApp(const LumiaApp());
 }
 
