@@ -69,9 +69,10 @@ class StoreRepositoryImpl extends StoreRepository{
 
   @override
   Future<ProductStore> getProductsByCategoryFromLocalSource({required String categoryName, required int limit, required int skip}) async {
-    var productEntitiesList = await _database.productDao.getProductsByCategory(categoryName: categoryName, limit: limit, skip: skip);
+    var productEntitiesList = await _database.productDao.getProductsByCategory(categoryName: categoryName);
     var productsList = productEntitiesList.map((entity) => Product.fromEntityToProductModel(entity)).toList();
 
+    // var finalProductsList = productsList.
     // Ici la valeur que tu donnes avec totalProductsFound n'est pas valide, tu devrais plutôt retourner la quantité d'items disponible
     // On devra corriger ça bientôt
     var productStore = ProductStore(products: productsList, totalProductsFound: productsList.length);

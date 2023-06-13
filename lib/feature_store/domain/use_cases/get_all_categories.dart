@@ -20,6 +20,7 @@ class GetAllCategoriesUseCase {
 
         if(categoriesFromLocalSource != categoriesFromRemote){
           _storeRepository.addCategoriesToLocalSource(categoriesFromRemote);
+          yield Resource.success(categoriesFromRemote);
         }
 
       }else{

@@ -15,13 +15,16 @@ class GetProductsByCategoryUseCase {
 
       final categoryProductsFromLocalSource = await _storeRepository.getProductsByCategoryFromLocalSource(categoryName: categoryName, limit: limit, skip: skip);
 
-      if(categoryProductsFromLocalSource.products.isNotEmpty && categoryProductsFromLocalSource ! == null){
+      if(categoryProductsFromLocalSource.products.isNotEmpty && categoryProductsFromLocalSource != null){
+
         yield Resource.success(categoryProductsFromLocalSource);
         final categoryProductsFromRemote = await _storeRepository.getProductsByCategoryFromRemote(categoryName: categoryName, limit: limit, skip: skip);
 
         if(categoryProductsFromLocalSource != categoryProductsFromRemote){
           _storeRepository.addProductsToLocalSource(categoryProductsFromRemote);
+          yield Resource.success(categoryProductsFromRemote);
         }
+
       }else{
 
         final categoryProductsFromRemote = await _storeRepository.getProductsByCategoryFromRemote(categoryName: categoryName, limit: limit, skip: skip);
