@@ -6,8 +6,8 @@ import '../../../feature_store/data/local/dao/product_dao.dart';
 
 class ChinamallDatabase {
 
-  late final CategoryDao categoryDao;
-  late final ProductDao productDao;
+  late CategoryDao categoryDao;
+  late ProductDao productDao;
 
   static const _databaseName = 'chinamall.db';
   static const _databaseVersion = 5;

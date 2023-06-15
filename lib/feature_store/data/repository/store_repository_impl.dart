@@ -66,17 +66,44 @@ class StoreRepositoryImpl extends StoreRepository{
     var productEntityList = productStore.products.map((model) => ProductEntity.toProductEntity(model)).toList();
     _database.productDao.addProducts(productEntityList);
   }
+  //
+  // @override
+  // Future<ProductStore> getProductsByCategoryFromLocalSource({required String categoryName, required int limit, required int skip}) async {
+  //   var productEntitiesList = await _database.productDao.getProductsByCategory(categoryName: categoryName);
+  //   var productsList = productEntitiesList.map((entity) => Product.fromEntityToProductModel(entity)).toList();
+  //
+  //   // var finalProductsList = productsList.
+  //   // Ici la valeur que tu donnes avec totalProductsFound n'est pas valide, tu devrais plutôt retourner la quantité d'items disponible
+  //   // On devra corriger ça bientôt
+  //   var productStore = ProductStore(products: productsList, totalProductsFound: productsList.length);
+  //   return productStore;
+  // }
 
   @override
   Future<ProductStore> getProductsByCategoryFromLocalSource({required String categoryName, required int limit, required int skip}) async {
     var productEntitiesList = await _database.productDao.getProductsByCategory(categoryName: categoryName);
-    var productsList = productEntitiesList.map((entity) => Product.fromEntityToProductModel(entity)).toList();
+    var totalProductsFound = productEntitiesList.length;
 
-    // var finalProductsList = productsList.
-    // Ici la valeur que tu donnes avec totalProductsFound n'est pas valide, tu devrais plutôt retourner la quantité d'items disponible
-    // On devra corriger ça bientôt
-    var productStore = ProductStore(products: productsList, totalProductsFound: productsList.length);
+    if (skip >= totalProductsFound) {
+      // Si skip est supérieur ou égal à totalProductsFound,
+      // la plage de produits est en dehors des limites, donc on retourne une liste vide
+      return ProductStore(products: [], totalProductsFound: totalProductsFound);
+    }
+
+    var startIndex = skip;
+    var endIndex = startIndex + limit;
+    if (endIndex > totalProductsFound) {
+      endIndex = totalProductsFound;
+    }
+
+    var productsList = productEntitiesList
+        .sublist(startIndex, endIndex)
+        .map((entity) => Product.fromEntityToProductModel(entity))
+        .toList();
+
+    var productStore = ProductStore(products: productsList, totalProductsFound: totalProductsFound);
     return productStore;
   }
+
 
 }

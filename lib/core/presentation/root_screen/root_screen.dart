@@ -34,9 +34,6 @@ class RootScreen extends StatelessWidget {
               showUnselectedLabels: true,
               elevation: 500,
               currentIndex: state.routeIndex,
-              // splashColor: Constants.primaryColor,
-              // activeColor: Constants.primaryColor,
-              // inactiveColor: Colors.black.withOpacity(.5),
               onTap: onTap,
               items: state.navbarItems.map((item) =>
                   BottomNavigationBarItem(

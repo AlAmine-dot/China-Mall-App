@@ -3,7 +3,7 @@ import 'package:lumia_app/feature_store/presentation/home_screen/home_screen.dar
 
 import '../../../../feature_store/presentation/cart_screen/cart_screen.dart';
 import '../../../../feature_store/presentation/profile_screen/profile_screen.dart';
-import '../../../../feature_store/presentation/search_screen/search_screen.dart';
+import '../../../../feature_store/presentation/search_screen/main_search_screen/main_search_screen.dart';
 import '../../../domain/models/app_navbar_item.dart';
 
 class RootState {
@@ -14,7 +14,7 @@ class RootState {
     this.routeIndex = 0,
     this.navbarItems = const [
       AppNavbarItem(HomeScreen(), Icons.home, "Home"),
-      AppNavbarItem(SearchScreen(), Icons.search, "Search"),
+      AppNavbarItem(MainSearchScreen(), Icons.search, "Search"),
       AppNavbarItem(CartScreen(), Icons.shopping_cart, "Cart"),
       AppNavbarItem(ProfileScreen(), Icons.person, "Log in"),
     ],

@@ -43,7 +43,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState>{
     }
   }
 
-
   Future<void> _getCategoryProducts(GetCategoryProducts event, Emitter<HomeState> emit) async {
     await for (final resource in _getProductsByCategory.execute(categoryName: event.category.categoryName, limit: event.limit, skip: event.skip)) {
       switch (resource.type) {

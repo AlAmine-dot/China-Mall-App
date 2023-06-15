@@ -9,6 +9,7 @@ import 'package:lumia_app/feature_store/presentation/home_screen/bloc/home_event
 import 'package:lumia_app/feature_store/presentation/home_screen/bloc/home_state.dart';
 import 'package:lumia_app/feature_store/presentation/home_screen/widgets/home_screen_widgets.dart';
 import '../../../core/commons/theme/app_colors.dart';
+import '../../../core/presentation/app_global_widgets.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -40,11 +41,18 @@ class HomeScreen extends StatelessWidget {
                 ),
                 title: "What would you like ?",
                 subtitle: "Shoes, glasses... ask us anything !",
+                isSearchBarActive: false,
               ),
               body: Column(
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  // Hero(
+                  //   tag: "ohio",
+                  //   child: Container(
+                  //     height: 20,
+                  //     width: 20,
+                  //     color: Colors.blue,
+                  //   ),
+                  // ),
                   CategoriesTabBar(
                     homeBloc: homeBloc,
                     scrollToPopularProductsSection: (){
@@ -53,7 +61,6 @@ class HomeScreen extends StatelessWidget {
                         duration: Duration(milliseconds: 1000), // Durée de l'animation (optionnelle)
                         curve: Curves.ease, // Courbe de l'animation (optionnelle)
                       );
-                      print("scrolled fr mf !");
                     }
                   ),
                   // On met le single child ici pour que l'item juste en haut reste fixé !
@@ -71,7 +78,6 @@ class HomeScreen extends StatelessWidget {
                             height: 15.h,
                           )
                         ],
-
                       ),
                     ),
                   )

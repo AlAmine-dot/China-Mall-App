@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lumia_app/core/commons/theme/app_colors.dart';
 import 'package:lumia_app/core/data/local/china_mall_database.dart';
 import 'package:lumia_app/core/presentation/onboarding_screen/onboarding_screen.dart';
 import 'package:lumia_app/feature_store/di/locator.dart';
-import 'package:lumia_app/feature_store/presentation/search_screen/search_screen.dart';
-import 'core/presentation/root_screen/root_screen.dart';
-import 'feature_store/presentation/cart_screen/cart_screen.dart';
-import 'feature_store/presentation/home_screen/home_screen.dart';
-import 'feature_store/presentation/profile_screen/profile_screen.dart';
 
 void main() {
   setupStoreDependencies();
@@ -89,23 +82,18 @@ class LumiaApp extends StatelessWidget {
     // );
 
     return ScreenUtilInit(
-            builder: (context, child) => MaterialApp(
-            theme: ThemeData(
-                appBarTheme: const AppBarTheme(
-                    iconTheme: IconThemeData(
-                        color: Colors.red
-                    )
-                )
+        builder: (context, child) => MaterialApp(
+        theme: ThemeData(
+            appBarTheme: const AppBarTheme(
+                iconTheme: IconThemeData(
+                    color: Colors.red
+                ),
             ),
-            home: OnboardingScreen(),
-            // MaterialApp.router(
-            //   routerConfig: _router,
-            //   title: "Go router",
-            //   debugShowCheckedModeBanner: false,
-            // ),
-              debugShowCheckedModeBanner: false,
-
-          )
+          primarySwatch: Colors.red
+        ),
+        home: OnboardingScreen(),
+        debugShowCheckedModeBanner: false,
+      )
     );
   }
 }

@@ -4,7 +4,7 @@ import 'package:lumia_app/core/commons/theme/app_colors.dart';
 import 'package:lumia_app/feature_store/presentation/home_screen/home_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../../../feature_store/presentation/search_screen/search_screen.dart';
+import '../../../feature_store/presentation/search_screen/main_search_screen/main_search_screen.dart';
 import '../root_screen/root_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {

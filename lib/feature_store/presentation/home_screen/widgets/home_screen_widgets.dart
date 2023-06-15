@@ -1,116 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lumia_app/feature_store/presentation/search_screen/main_search_screen/main_search_screen.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../core/commons/theme/app_colors.dart';
 import '../../../../core/commons/utils/toolbox.dart';
+import '../../../../core/presentation/app_global_widgets.dart';
+import '../../../../core/presentation/root_screen/bloc/root_bloc.dart';
+import '../../../../core/presentation/root_screen/bloc/root_event.dart';
+import '../../../../core/presentation/root_screen/root_screen.dart';
 import '../../../domain/model/product.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_event.dart';
 import '../bloc/home_state.dart';
 
-// SEARCH TOP APP BAR :
-
-class SearchTopAppBar extends StatelessWidget implements PreferredSizeWidget {
-
-  final String title;
-  final String subtitle;
-  final Icon leadingIcon;
-  final Icon trailingIcon;
-
-  const SearchTopAppBar({
-    super.key, required this.title, required this.subtitle, required this.leadingIcon, required this.trailingIcon,
-  });
-
-  @override
-  Size get preferredSize => Size.fromHeight(70.h);
-
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      elevation: 0,
-      toolbarHeight: 70.h,
-      backgroundColor: Colors.white,
-      title: Container(
-        padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 15.w),
-        height: 50.h,
-        width: 1.sw,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              height: 50.h,
-              width: 15.w,
-              child: leadingIcon,
-            ),
-            SizedBox(
-              width: 20.w,
-            ),
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.symmetric(vertical: 3.h),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                          color: AppColors.berryBlack,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.sp
-                      ),
-                    ),
-                    Text(
-                      subtitle,
-                      style: TextStyle(
-                          color: AppColors.secondaryText,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.normal
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 15.w,
-            ),
-            Container(
-              child: SizedBox(
-                height: 30.h,
-                // Mettre .h en width n'est pas une très bonne pratique maiiis on verra...
-                width: 30.h,
-                child: trailingIcon,
-              ),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey.withOpacity(.6),
-                    width: .8,
-                  ),
-                  borderRadius: BorderRadius.circular(15.h)
-              ),
-            )
-          ],
-        ),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(30),
-            boxShadow: [
-              BoxShadow(
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: Offset(0,0),
-                  color: Colors.grey.withOpacity(.4)
-              )
-            ]
-        ),
-      ),
-    );
-  }
-
-}
 
 // SEARCH TOP APP BAR :
 
@@ -183,6 +89,46 @@ class CategoriesTabBar extends StatelessWidget {
     );
   }
 }
+
+class SearchTopAppBar extends StatelessWidget implements PreferredSizeWidget {
+
+  final String title;
+  final String subtitle;
+  final Icon leadingIcon;
+  final Icon trailingIcon;
+  final bool isSearchBarActive;
+
+  const SearchTopAppBar({
+    super.key, required this.title, required this.subtitle, required this.leadingIcon, required this.trailingIcon, required this.isSearchBarActive
+  });
+
+  @override
+  Size get preferredSize => Size.fromHeight(70.h);
+
+  @override
+  Widget build(BuildContext context) {
+
+    final rootBloc = context.read<RootBloc>();
+
+    return AppBar(
+      elevation: 0,
+      toolbarHeight: 70.h,
+      backgroundColor: Colors.white,
+      title: GestureDetector(
+        onTap: (){
+          rootBloc.add(ChangeRoute(1));
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(builder: (context) => MainSearchScreen())
+          // );
+        },
+        child: ChinaSearchBar(leadingIcon: leadingIcon, title: title, subtitle: subtitle, trailingIcon: trailingIcon, isActive: this.isSearchBarActive,),
+      ),
+    );
+  }
+
+}
+
 
 // DISCOUNTS SWIPER :
 
