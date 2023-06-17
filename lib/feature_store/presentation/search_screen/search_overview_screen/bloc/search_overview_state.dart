@@ -5,8 +5,10 @@ class SearchOverviewState{
   final ProductStore? searchResult;
   final String selectedFilterOption;
   final bool isLoading;
+  final String errorMessage;
 
   const SearchOverviewState({
+    this.errorMessage = "",
     this.searchResult,
     this.isLoading = true,
     this.searchPrompt = "",
@@ -18,9 +20,11 @@ class SearchOverviewState{
     ProductStore? searchResult,
     String? selectedFilterOption,
     bool? isLoading,
+    String? errorMessage
   }) {
     return SearchOverviewState(
       searchPrompt: searchPrompt ?? this.searchPrompt,
+      errorMessage: errorMessage ?? this.errorMessage,
       searchResult: searchResult ?? this.searchResult,
       selectedFilterOption: selectedFilterOption ?? this.selectedFilterOption,
       isLoading: isLoading ?? this.isLoading,

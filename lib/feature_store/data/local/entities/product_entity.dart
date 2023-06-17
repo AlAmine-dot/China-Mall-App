@@ -32,6 +32,23 @@ class ProductEntity{
 
   factory ProductEntity.toProductEntity(Product model) => ProductEntity(id: model.id, title: model.title, description: model.description, price: model.price, discountPercentage: model.discountPercentage, rating: model.rating, stock: model.stock, brand: model.brand, category: model.category, thumbnail: model.thumbnail, images: model.images, nondiscountPrice: model.price ~/ (1 - (model.discountPercentage / 100) ));
 
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'price': price,
+      'nondiscountPrice': nondiscountPrice,
+      'discountPercentage': discountPercentage,
+      'rating': rating,
+      'stock': stock,
+      'brand': brand,
+      'category': category,
+      'thumbnail': thumbnail,
+      'images': images.join(','),
+    };
+  }
+
   @override
   String toString() {
     return 'ProductEntity{brand: $brand}';

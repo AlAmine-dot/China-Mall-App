@@ -3,6 +3,7 @@ import 'package:lumia_app/feature_store/data/remote/api/store_api_impl.dart';
 import 'package:lumia_app/feature_store/data/repository/store_repository_impl.dart';
 import 'package:lumia_app/feature_store/domain/use_cases/get_all_categories.dart';
 import 'package:lumia_app/feature_store/domain/use_cases/get_products_by_category.dart';
+import 'package:lumia_app/feature_store/domain/use_cases/search_products_by_name.dart';
 import 'package:lumia_app/feature_store/presentation/home_screen/bloc/home_event.dart';
 
 import '../../core/data/local/china_mall_database.dart';
@@ -27,6 +28,7 @@ void setupStoreDependencies(){
   // USE CASES :
   locator.registerLazySingleton(() => GetAllCategoriesUseCase());
   locator.registerLazySingleton(() => GetProductsByCategoryUseCase());
+  locator.registerLazySingleton(() => SearchProductsByNameUseCase());
 
 
 }

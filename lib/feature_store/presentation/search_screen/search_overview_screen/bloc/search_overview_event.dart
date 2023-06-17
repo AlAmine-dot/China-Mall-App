@@ -16,3 +16,5 @@ class SelectFilter extends SearchOverviewEvent{
 
   const SelectFilter({required this.newFilterValue});
 }
+
+

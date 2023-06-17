@@ -91,16 +91,20 @@ class StoreApiImpl extends StoreApi{
   }
 
   @override
-  Future<ProductStoreDto> searchProductsByName({required String queryString, required int limit, required int skip}) async {
-    var url = Uri.parse("${StoreApi.API_BASE_URL}/products/search?q=$queryString&limit=$limit&skip=$skip");
+  Future<ProductStoreDto> searchProductsByName({required String queryString, int? limit, int? skip}) async {
+
+    var url = limit == null || skip == null ?
+    Uri.parse("${StoreApi.API_BASE_URL}/search?q=$queryString") :
+    Uri.parse("${StoreApi.API_BASE_URL}/search?q=$queryString&limit=$limit&skip=$skip");
+
     var response = await http.get(url);
 
     try {
       if (response.statusCode == 200) {
-        var jsonString = jsonDecode(response.body);
+        var jsonString = response.body;
         return productStoreDtoFromJson(jsonString);
       } else {
-        throw StoreApiException("An unexpected error has occurred in searchProductsByName");
+        throw StoreApiException("An unexpected error has occurred in searchProductsByName with following URL : $url");
       }
     } catch (e, stackTrace) {
       log('An error has occurred in searchProductsByName: $e\n$stackTrace');

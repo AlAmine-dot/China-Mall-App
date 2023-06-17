@@ -10,13 +10,13 @@ abstract class ProductDao{
 
   Future<void> addProducts(List<ProductEntity> productsList);
 
-  Future<void> updateProduct(ProductEntity);
+  Future<void> updateProduct(ProductEntity product);
 
-  Future<void> deleteProduct(ProductEntity);
+  Future<void> deleteProduct(ProductEntity product);
 
   Future<List<ProductEntity>> getProducts({required int limit, required int skip});
 
-  Future<List<ProductEntity>> searchProductsByName({required String queryString, required int limit, required int skip});
+  Future<List<ProductEntity>> searchProductsByName({required String queryString});
 
   Future<List<ProductEntity>> getProductsByCategory({required String categoryName});
 
@@ -28,12 +28,41 @@ class ProductDaoImpl extends ProductDao{
   final sql.Database database;
 
   ProductDaoImpl(this.database);
-  
+
   @override
-  Future<List<ProductEntity>> getProducts({required int limit, required int skip}) {
-    // TODO: implement getProducts
-    throw UnimplementedError();
+  Future<List<ProductEntity>> getProducts({required int limit, required int skip}) async {
+    try {
+      final results = await database.query(
+        'products',
+        limit: limit,
+        offset: skip,
+      );
+
+      return results.map((result) {
+        final imagesString = result['images'] as String;
+        final imagesList = imagesString.split(',');
+        return ProductEntity(
+          id: result['id'] as int,
+          title: result['title'] as String,
+          description: result['description'] as String,
+          price: result['price'] as int,
+          nondiscountPrice: result['nondiscountPrice'] as int,
+          discountPercentage: result['discountPercentage'] as double,
+          rating: result['rating'] as double,
+          stock: result['stock'] as int,
+          brand: result['brand'] as String,
+          category: result['category'] as String,
+          thumbnail: result['thumbnail'] as String,
+          images: imagesList,
+        );
+      }).toList();
+    } catch (error) {
+      // Handle the error here, e.g., by displaying an error message or throwing a custom exception.
+      debugPrint('An error occurred while retrieving products: $error');
+      throw StoreDatabaseException('Error retrieving products');
+    }
   }
+
 
   @override
   Future<List<ProductEntity>> getProductsByCategory({
@@ -73,16 +102,84 @@ class ProductDaoImpl extends ProductDao{
 
 
   @override
-  Future<ProductEntity> getSingleProductById(int productId) {
-    // TODO: implement getSingleProductById
-    throw UnimplementedError();
+  Future<ProductEntity> getSingleProductById(int productId) async {
+    try {
+      final results = await database.query(
+        'products',
+        where: 'id = ?',
+        whereArgs: [productId],
+        limit: 1,
+      );
+
+      if (results.isNotEmpty) {
+        final result = results.first;
+        final imagesString = result['images'] as String;
+        final imagesList = imagesString.split(',');
+
+        return ProductEntity(
+          id: result['id'] as int,
+          title: result['title'] as String,
+          description: result['description'] as String,
+          price: result['price'] as int,
+          nondiscountPrice: result['nondiscountPrice'] as int,
+          discountPercentage: result['discountPercentage'] as double,
+          rating: result['rating'] as double,
+          stock: result['stock'] as int,
+          brand: result['brand'] as String,
+          category: result['category'] as String,
+          thumbnail: result['thumbnail'] as String,
+          images: imagesList,
+        );
+      } else {
+        throw Exception('Product not found');
+      }
+    } catch (error) {
+      // Gérer l'erreur ici, par exemple, en affichant un message d'erreur ou en lançant une nouvelle exception personnalisée.
+      debugPrint('Une erreur s\'est produite lors de la récupération du produit par ID : $error');
+      throw StoreDatabaseException('Erreur lors de la récupération du produit par ID');
+    }
   }
 
+
   @override
-  Future<List<ProductEntity>> searchProductsByName({required String queryString, required int limit, required int skip}) {
-    // TODO: implement searchProductsByName
-    throw UnimplementedError();
+  Future<List<ProductEntity>> searchProductsByName({required String queryString}) async {
+    try {
+      final results = await database.query(
+        'products',
+        where: 'title LIKE ? OR description LIKE ? OR category LIKE ? OR brand LIKE ?',
+        whereArgs: [
+          '%$queryString%',
+          '%$queryString%',
+          '%$queryString%',
+          '%$queryString%',
+        ],
+      );
+
+      return results.map((result) {
+        final imagesString = result['images'] as String;
+        final imagesList = imagesString.split(',');
+        return ProductEntity(
+          id: result['id'] as int,
+          title: result['title'] as String,
+          description: result['description'] as String,
+          price: result['price'] as int,
+          nondiscountPrice: result['nondiscountPrice'] as int,
+          discountPercentage: result['discountPercentage'] as double,
+          rating: result['rating'] as double,
+          stock: result['stock'] as int,
+          brand: result['brand'] as String,
+          category: result['category'] as String,
+          thumbnail: result['thumbnail'] as String,
+          images: imagesList,
+        );
+      }).toList();
+    } catch (error) {
+      // Gérer l'erreur ici, par exemple, en affichant un message d'erreur ou en lançant une nouvelle exception personnalisée.
+      debugPrint('Une erreur s\'est produite lors de la recherche des produits par nom : $error');
+      throw StoreDatabaseException('Erreur lors de la recherche des produits par nom');
+    }
   }
+
 
   @override
   Future<void> addProducts(List<ProductEntity> productsList) async {
@@ -122,17 +219,37 @@ class ProductDaoImpl extends ProductDao{
 
   }
 
-
   @override
-  Future<void> deleteProduct(ProductEntity) {
-    // TODO: implement deleteProduct
-    throw UnimplementedError();
+  Future<void> deleteProduct(ProductEntity product) async {
+    try {
+      await database.delete(
+        'products',
+        where: 'id = ?',
+        whereArgs: [product.id],
+      );
+    } catch (error) {
+      // Gérer l'erreur ici, par exemple, en affichant un message d'erreur ou en lançant une nouvelle exception personnalisée.
+      debugPrint('Une erreur s\'est produite lors de la suppression du produit : $error');
+      throw StoreDatabaseException('Erreur lors de la suppression du produit');
+    }
   }
 
+
   @override
-  Future<void> updateProduct(ProductEntity) {
-    // TODO: implement updateProduct
-    throw UnimplementedError();
+  Future<void> updateProduct(ProductEntity product) async {
+    try {
+      await database.update(
+        'products',
+        product.toMap(),
+        where: 'id = ?',
+        whereArgs: [product.id],
+      );
+    } catch (error) {
+      // Gérer l'erreur ici, par exemple, en affichant un message d'erreur ou en lançant une nouvelle exception personnalisée.
+      debugPrint('Une erreur s\'est produite lors de la mise à jour du produit : $error');
+      throw StoreDatabaseException('Erreur lors de la mise à jour du produit');
+    }
   }
+
   
 }

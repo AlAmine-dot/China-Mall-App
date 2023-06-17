@@ -36,7 +36,7 @@ class StoreRepositoryImpl extends StoreRepository{
   }
 
   @override
-  Future<ProductStore> searchProductsByNameFromRemote({required String queryString, required int limit, required int skip}) async {
+  Future<ProductStore> searchProductsByNameFromRemote({required String queryString, int? limit, int? skip}) async {
     var dto = await _storeApi.searchProductsByName(queryString: queryString, limit: limit, skip: skip);
     return ProductStore.toProductStoreModel(dto);
   }
@@ -103,6 +103,40 @@ class StoreRepositoryImpl extends StoreRepository{
 
     var productStore = ProductStore(products: productsList, totalProductsFound: totalProductsFound);
     return productStore;
+  }
+
+  @override
+  Future<ProductStore> searchProductsByNameFromLocalSource({required String queryString, int? limit, int? skip}) async {
+    var productEntitiesList = await _database.productDao.searchProductsByName(queryString: queryString);
+    var totalProductsFound = productEntitiesList.length;
+
+    if(limit == null || skip == null){
+      var productStore = ProductStore(products: productEntitiesList.map((entity) => Product.fromEntityToProductModel(entity))
+          .toList(), totalProductsFound: totalProductsFound);
+      return productStore;
+    }{
+
+      if (skip! >= totalProductsFound) {
+        // Si skip est supérieur ou égal à totalProductsFound,
+        // la plage de produits est en dehors des limites, donc on retourne une liste vide
+        return ProductStore(products: [], totalProductsFound: totalProductsFound);
+      }
+
+      var startIndex = skip;
+      var endIndex = startIndex + limit!;
+      if (endIndex > totalProductsFound) {
+        endIndex = totalProductsFound;
+      }
+
+      var productsList = productEntitiesList
+          .sublist(startIndex, endIndex)
+          .map((entity) => Product.fromEntityToProductModel(entity))
+          .toList();
+
+      var productStore = ProductStore(products: productsList, totalProductsFound: totalProductsFound);
+      return productStore;
+    }
+
   }
 
 
