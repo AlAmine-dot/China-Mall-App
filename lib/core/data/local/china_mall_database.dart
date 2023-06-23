@@ -10,7 +10,7 @@ class ChinamallDatabase {
   late ProductDao productDao;
 
   static const _databaseName = 'chinamall.db';
-  static const _databaseVersion = 5;
+  static const _databaseVersion = 6;
 
   Future<void> createDatabase() async {
     final databasePath = await sql.getDatabasesPath();
@@ -57,9 +57,22 @@ class ChinamallDatabase {
           brand TEXT,
           category TEXT,
           thumbnail TEXT,
-          images TEXT
+          images TEXT,
+          isIntoCart INTEGER DEFAULT 0
         )
     ''');
+
+    // Créer la table "cart"
+    // Est-ce qu'on va partir sur ça ? Je dois d'abord conceptualiser le back
+    await database.execute('''
+      CREATE TABLE IF NOT EXISTS cart (
+        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        productId INTEGER,
+        quantity INTEGER,
+        FOREIGN KEY (productId) REFERENCES products (id)
+      )
+  ''');
+
     // Autres tables si nécessaire
   }
 }

@@ -14,6 +14,7 @@ class ProductEntity{
   String category;
   String thumbnail;
   List<String> images;
+  bool isProductIntoCart;
 
   ProductEntity({
     required this.id,
@@ -27,10 +28,11 @@ class ProductEntity{
     required this.category,
     required this.thumbnail,
     required this.images,
-    required this.nondiscountPrice
+    required this.nondiscountPrice,
+    required this.isProductIntoCart
   });
 
-  factory ProductEntity.toProductEntity(Product model) => ProductEntity(id: model.id, title: model.title, description: model.description, price: model.price, discountPercentage: model.discountPercentage, rating: model.rating, stock: model.stock, brand: model.brand, category: model.category, thumbnail: model.thumbnail, images: model.images, nondiscountPrice: model.price ~/ (1 - (model.discountPercentage / 100) ));
+  factory ProductEntity.toProductEntity(Product model) => ProductEntity(id: model.id, title: model.title, description: model.description, price: model.price, discountPercentage: model.discountPercentage, rating: model.rating, stock: model.stock, brand: model.brand, category: model.category, thumbnail: model.thumbnail, images: model.images, nondiscountPrice: model.price ~/ (1 - (model.discountPercentage / 100) ), isProductIntoCart: false);
 
   Map<String, dynamic> toMap() {
     return {
@@ -46,6 +48,7 @@ class ProductEntity{
       'category': category,
       'thumbnail': thumbnail,
       'images': images.join(','),
+      'isIntoCart': isProductIntoCart ? 1 : 0
     };
   }
 

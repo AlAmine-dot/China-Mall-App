@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:lumia_app/feature_store/data/local/entities/product_entity.dart';
 import 'package:sqflite/sqflite.dart' as sql;
-import 'package:sqflite/sqflite.dart';
 
 import '../../exceptions/store_database_exception.dart';
 
@@ -54,6 +53,7 @@ class ProductDaoImpl extends ProductDao{
           category: result['category'] as String,
           thumbnail: result['thumbnail'] as String,
           images: imagesList,
+          isProductIntoCart: result['isIntoCart'] == 1 ? true : false
         );
       }).toList();
     } catch (error) {
@@ -91,6 +91,7 @@ class ProductDaoImpl extends ProductDao{
           category: result['category'] as String,
           thumbnail: result['thumbnail'] as String,
           images: imagesList,
+          isProductIntoCart: result['isIntoCart'] == 1 ? true : false
         );
       }).toList();
     } catch (error) {
@@ -129,6 +130,7 @@ class ProductDaoImpl extends ProductDao{
           category: result['category'] as String,
           thumbnail: result['thumbnail'] as String,
           images: imagesList,
+          isProductIntoCart: result['isIntoCart'] == 1 ? true : false
         );
       } else {
         throw Exception('Product not found');
@@ -171,6 +173,8 @@ class ProductDaoImpl extends ProductDao{
           category: result['category'] as String,
           thumbnail: result['thumbnail'] as String,
           images: imagesList,
+          isProductIntoCart: result['isIntoCart'] == 1 ? true : false
+
         );
       }).toList();
     } catch (error) {
@@ -204,6 +208,7 @@ class ProductDaoImpl extends ProductDao{
             'category': product.category,
             'thumbnail': product.thumbnail,
             'images': product.images.join(','),
+            'isIntoCart': product.isProductIntoCart ? 1 : 0
           },
           conflictAlgorithm: sql.ConflictAlgorithm.replace,
         );
