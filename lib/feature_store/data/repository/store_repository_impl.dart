@@ -1,5 +1,6 @@
 import 'package:lumia_app/core/data/local/china_mall_database.dart';
 import 'package:lumia_app/feature_store/data/local/entities/product_entity.dart';
+import 'package:lumia_app/feature_store/domain/model/cart_item.dart';
 import 'package:lumia_app/feature_store/domain/model/category.dart';
 import 'package:lumia_app/feature_store/domain/model/product.dart';
 
@@ -137,6 +138,50 @@ class StoreRepositoryImpl extends StoreRepository{
       return productStore;
     }
 
+  }
+
+  @override
+  Future<void> addToCart(Product product) async {
+    var productEntity = ProductEntity.toProductEntity(product);
+    _database.cartDao.addToCart(productEntity);
+  }
+
+  @override
+  Future<void> clearCart() async {
+    _database.cartDao.clearCart();
+  }
+
+  @override
+  Future<List<CartItem>> getCart() async {
+    var cartEntityItems = await _database.cartDao.getCart();
+    var cartItems = <CartItem>[];
+
+    for (var cartEntityItem in cartEntityItems) {
+      var productEntity = await _database.productDao.getSingleProductById(cartEntityItem.productId);
+      var product = Product.fromEntityToProductModel(productEntity);
+      var cartItem = CartItem(product: product, quantity: cartEntityItem.quantity);
+      cartItems.add(cartItem);
+    }
+
+    return cartItems;
+  }
+
+
+  @override
+  Future<bool> isProductIntoCart(int productId) {
+    return _database.cartDao.isProductIntoCart(productId);
+  }
+
+  @override
+  Future<void> removeFromCart(Product product) async {
+    var productEntity = ProductEntity.toProductEntity(product);
+    _database.cartDao.removeFromCart(productEntity);
+  }
+
+  @override
+  Future<void> updateQuantity(Product product, int newQuantity) async {
+    var productEntity = ProductEntity.toProductEntity(product);
+    _database.cartDao.updateQuantity(productEntity, newQuantity);
   }
 
 

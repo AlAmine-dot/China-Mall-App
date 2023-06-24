@@ -1,6 +1,7 @@
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 
+import '../../../feature_store/data/local/dao/cart_dao.dart';
 import '../../../feature_store/data/local/dao/category_dao.dart';
 import '../../../feature_store/data/local/dao/product_dao.dart';
 
@@ -8,6 +9,7 @@ class ChinamallDatabase {
 
   late CategoryDao categoryDao;
   late ProductDao productDao;
+  late CartDao cartDao;
 
   static const _databaseName = 'chinamall.db';
   static const _databaseVersion = 6;
@@ -33,6 +35,7 @@ class ChinamallDatabase {
     // // Stocker les instances de chaque dao pour y accéder ultérieurement
     categoryDao = CategoryDaoImpl(database);
     productDao = ProductDaoImpl(database);
+    cartDao = CartDaoImpl(database);
   }
 
   Future<void> createTables(sql.Database database) async {

@@ -147,12 +147,13 @@ class ChinaSearchBar extends StatelessWidget {
 
 class ProductsGridFeed extends StatelessWidget {
   const ProductsGridFeed({
-    super.key, required this.categoryProducts,
+    super.key, required this.categoryProducts, this.onAddToCart,
     // required this.state,
   });
 
   // final HomeState state;
   final ProductStore categoryProducts;
+  final void Function(Product product)? onAddToCart;
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +171,7 @@ class ProductsGridFeed extends StatelessWidget {
         itemCount: categoryProducts.products.length,
         itemBuilder: (_, index) {
           final Product product = categoryProducts!.products[index]!;
-          return ProductSmallCard(product: product);
+          return ProductSmallCard(product: product, onAddToCart: onAddToCart);
         });
   }
 }
@@ -178,11 +179,11 @@ class ProductsGridFeed extends StatelessWidget {
 class ProductSmallCard extends StatelessWidget {
   const ProductSmallCard({
     super.key,
-    required this.product,
+    required this.product, required this.onAddToCart,
   });
 
   final Product product;
-
+  final void Function(Product product)? onAddToCart;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -231,22 +232,25 @@ class ProductSmallCard extends StatelessWidget {
                 Positioned(
                   top: 5,
                   right: 5,
-                  child: Container(
-                    height: 22.h,
-                    width: 22.h,
-                    child: Center(
-                        child: Icon(
-                          Icons.shopping_cart,
-                          color: AppColors
-                              .sinCityRed,
-                          size: 17,
-                        )),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius:
-                        BorderRadius
-                            .circular(
-                            15)),
+                  child: GestureDetector(
+                    onTap: () => onAddToCart!(product),
+                    child: Container(
+                      height: 22.h,
+                      width: 22.h,
+                      child: Center(
+                          child: Icon(
+                            Icons.shopping_cart,
+                            color: AppColors
+                                .sinCityRed,
+                            size: 17,
+                          )),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                          BorderRadius
+                              .circular(
+                              15)),
+                    ),
                   ),
                 ),
                 Positioned(

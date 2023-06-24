@@ -1,3 +1,4 @@
+import '../model/cart_item.dart';
 import '../model/category.dart';
 import '../model/product.dart';
 import '../model/product_store.dart';
@@ -28,4 +29,18 @@ abstract class StoreRepository{
 
   Future<ProductStore> searchProductsByNameFromLocalSource({required String queryString, required int limit, required int skip});
 
+
+  // CART :
+
+  Future<void> addToCart(Product product);
+
+  Future<void> removeFromCart(Product product);
+
+  Future<void> updateQuantity(Product product,int newQuantity);
+
+  Future<List<CartItem>> getCart();
+
+  Future<bool> isProductIntoCart(int productId);
+
+  Future<void> clearCart();
 }

@@ -342,6 +342,12 @@ class PopularProductsSection extends StatelessWidget {
 
     final state = homeBloc.state;
 
+    final void Function(Product)? onAddProductToCart = (Product product) {
+      homeBloc.add(AddToCart(product));
+      print("BOUUUUUUUUUUUUUUUUUUH !!! RAN");
+    };
+
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 13.w),
       width: 1.sw,
@@ -373,7 +379,7 @@ class PopularProductsSection extends StatelessWidget {
           ) : Container(
             width: 1.sw,
             // height: 500.h,
-            child: state.categoryProducts == null ? Container() : ProductsGridFeed(categoryProducts: state.categoryProducts!),
+            child: state.categoryProducts == null ? Container() : ProductsGridFeed(categoryProducts: state.categoryProducts!, onAddToCart: onAddProductToCart),
           )
         ],
       ),

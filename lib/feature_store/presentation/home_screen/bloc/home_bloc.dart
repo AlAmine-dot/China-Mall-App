@@ -6,20 +6,46 @@ import 'package:lumia_app/feature_store/presentation/home_screen/bloc/home_state
 import '../../../../core/commons/utils/app_constants.dart';
 import '../../../../core/commons/utils/resource.dart';
 import '../../../di/locator.dart';
+import '../../../domain/use_cases/add_product_to_cart.dart';
 import '../../../domain/use_cases/get_products_by_category.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState>{
 
   final _getAllCategories = locator.get<GetAllCategoriesUseCase>();
   final _getProductsByCategory = locator.get<GetProductsByCategoryUseCase>();
+  final _addToCartUseCase = locator.get<AddToCartUseCase>();
 
   HomeBloc():super(HomeState()){
     on<GetCategoriesEvent>(_getCategories);
     on<SelectCategory>(_selectNewCategory);
     on<GetCategoryProducts>(_getCategoryProducts);
     on<InitHome>(_initializeHomeView);
+    on<AddToCart>(_addToCart);
 
     add(InitHome());
+  }
+
+  void _addToCart(AddToCart event, Emitter<HomeState> emit) async{
+    await for (final resource in _addToCartUseCase.execute(product: event.product)) {
+      print("New sneakers aired dude : " + resource.data.toString());
+      switch (resource.type) {
+        case ResourceType.success:
+          // emit(state.copyWith(categoriesLoading: false, categories: resource.data));
+          if(resource.data!){
+            print("Added to cart successfully");
+          }else{
+            print("This product is already into your cart");
+          };
+          break;
+        case ResourceType.error:
+          emit(state.copyWith(categoriesLoading: false, errorMessage: resource.message));
+          print("Error happened");
+          break;
+        case ResourceType.loading:
+          emit(state.copyWith(categoriesLoading: true));
+          break;
+      }
+    }
   }
 
 
