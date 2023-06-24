@@ -397,3 +397,47 @@ class ProductSmallCard extends StatelessWidget {
   }
 }
 
+SnackBar buildCustomSnackBar(BuildContext context, String message) {
+  return SnackBar(
+    elevation: 0,
+    backgroundColor: Colors.transparent,
+    content: Container(
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      height: 60,
+      width: 1.sw,
+      decoration: BoxDecoration(
+          color: AppColors.toastBg,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: Offset(0,0),
+                color: Colors.black.withOpacity(.1)
+            )
+          ]
+      ),
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              message,
+              style: TextStyle(
+                color: AppColors.bunnyBlack,
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              },
+              child: const Icon(Icons.close),
+            ),
+          ],
+        ),
+      ),
+    ),
+    duration: Duration(seconds: 2),
+  );
+}
+

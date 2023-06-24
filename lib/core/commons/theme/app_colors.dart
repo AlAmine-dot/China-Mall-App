@@ -9,4 +9,5 @@ class AppColors{
     static var sinCityRed = const Color(0xffED213A);
     static var chinaYellow = const Color(0xffE4D234);
     static var chinaGrey = const Color(0xffF8F7F3);
+    static var toastBg = const Color(0xffC9DEF1);
 }

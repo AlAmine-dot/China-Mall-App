@@ -5,9 +5,9 @@ import 'package:lumia_app/feature_store/domain/use_cases/add_product_to_cart.dar
 import 'package:lumia_app/feature_store/domain/use_cases/get_all_categories.dart';
 import 'package:lumia_app/feature_store/domain/use_cases/get_products_by_category.dart';
 import 'package:lumia_app/feature_store/domain/use_cases/search_products_by_name.dart';
-import 'package:lumia_app/feature_store/presentation/home_screen/bloc/home_event.dart';
-
 import '../../core/data/local/china_mall_database.dart';
+import '../domain/use_cases/delete_from_cart.dart';
+import '../domain/use_cases/get_cart.dart';
 
 final locator = GetIt.instance;
 
@@ -30,5 +30,7 @@ void setupStoreDependencies(){
   locator.registerLazySingleton(() => GetProductsByCategoryUseCase());
   locator.registerLazySingleton(() => SearchProductsByNameUseCase());
   locator.registerLazySingleton(() => AddToCartUseCase());
+  locator.registerLazySingleton(() => GetCartUseCase());
+  locator.registerLazySingleton(() => RemoveFromCartUseCase());
 
 }

@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 import '../../../domain/model/category.dart';
 import '../../../domain/model/product.dart';
 
@@ -24,5 +26,14 @@ class SelectCategory extends HomeEvent{
 
 class AddToCart extends HomeEvent{
   final Product product;
-  const AddToCart(this.product);
+  final BuildContext context;
+
+  const AddToCart(this.product, this.context);
+}
+
+class ShowSnackbarEvent extends HomeEvent {
+  final String message;
+  final BuildContext context;
+
+  ShowSnackbarEvent(this.message, this.context);
 }

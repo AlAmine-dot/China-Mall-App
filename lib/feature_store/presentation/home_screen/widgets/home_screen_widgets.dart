@@ -1,7 +1,9 @@
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lumia_app/feature_store/presentation/search_screen/main_search_screen/main_search_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -342,10 +344,9 @@ class PopularProductsSection extends StatelessWidget {
 
     final state = homeBloc.state;
 
-    final void Function(Product)? onAddProductToCart = (Product product) {
-      homeBloc.add(AddToCart(product));
-      print("BOUUUUUUUUUUUUUUUUUUH !!! RAN");
-    };
+    onAddProductToCart(Product product) {
+      homeBloc.add(AddToCart(product, context));
+    }
 
 
     return Container(
@@ -386,5 +387,6 @@ class PopularProductsSection extends StatelessWidget {
     );
   }
 }
+
 
 
